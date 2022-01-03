@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forecasting an Audience Before the Launch Window Closes</title>
+  <meta name="description" content="A case study on forecasting show views for a digital media company: launch timing, weekend lift, promo pressure, and which variables actually help editorial planning.">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Libre+Franklin:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --bg: #ffffff;
+      --ink: #111111;
+      --ink-2: #1a1a1a;
+      --text: #333333;
+      --muted: #555555;
+      --soft: #888888;
+      --rule: #ddd;
+      --divider: #e8e8e8;
+      --panel: #f0f0f0;
+      --inverse: #f5f5f5;
+      --display: "Cormorant Garamond", Georgia, serif;
+      --sans: "Libre Franklin", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.72;
+    }
+
+    code {
+      font-family: var(--mono);
+      background: var(--panel);
+      padding: 0.08em 0.3em;
+      font-size: 0.9em;
+    }
+
+    .page {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 1rem 1rem 5rem;
+    }
+
+    .cover {
+      border-top: 2px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+      padding-top: 1rem;
+    }
+
+    .cover-strip {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: center;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .kicker,
+    .cover-meta {
+      margin: 0;
+      font-family: var(--mono);
+      font-size: 0.67rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+
+    .cover-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) 280px;
+      gap: 2rem;
+      align-items: end;
+      padding: 1.25rem 0 1.5rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(3.1rem, 6vw, 5.6rem);
+      line-height: 0.94;
+      letter-spacing: -0.04em;
+      font-weight: 700;
+      max-width: 11ch;
+    }
+
+    .deck {
+      margin: 1rem 0 0;
+      max-width: 50rem;
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.68;
+    }
+
+    .cover-card {
+      border-left: 1px solid var(--ink);
+      padding-left: 1.25rem;
+    }
+
+    .cover-card h2 {
+      margin: 0 0 0.85rem;
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--soft);
+      font-weight: 500;
+    }
+
+    .cover-card dl {
+      margin: 0;
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .cover-card dt {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--soft);
+      margin-bottom: 0.2rem;
+    }
+
+    .cover-card dd {
+      margin: 0;
+      font-size: 0.96rem;
+      color: var(--ink);
+      line-height: 1.45;
+    }
+
+    .story {
+      max-width: 760px;
+      margin: 0 auto;
+      padding-top: 2rem;
+    }
+
+    .lede-note {
+      margin: 0 0 1.4rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid var(--ink);
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+
+    p {
+      margin: 0 0 1.1rem;
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .section {
+      margin-top: 3rem;
+    }
+
+    .section-head {
+      margin-bottom: 1rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .section-label {
+      display: block;
+      margin-bottom: 0.35rem;
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-family: var(--sans);
+      font-size: clamp(1.25rem, 2.1vw, 1.8rem);
+      line-height: 1.18;
+      font-weight: 700;
+      color: var(--ink);
+      max-width: 22ch;
+    }
+
+    h3 {
+      margin: 1.5rem 0 0.45rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .pull {
+      margin: 1.8rem 0;
+      padding: 1rem 1.1rem;
+      border-top: 2px solid var(--ink);
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .pull p {
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(1.5rem, 2.7vw, 2.2rem);
+      line-height: 1.16;
+      color: var(--ink);
+    }
+
+    .figure-block {
+      max-width: 1120px;
+      margin: 2.4rem auto;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--ink);
+    }
+
+    .figure-label {
+      margin: 0 0 0.7rem;
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: var(--bg);
+    }
+
+    figcaption {
+      margin-top: 0.8rem;
+      max-width: 860px;
+      font-size: 0.8rem;
+      font-style: italic;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .model-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.4rem 0 1.8rem;
+      font-size: 0.88rem;
+    }
+
+    .model-table th,
+    .model-table td {
+      text-align: left;
+      padding: 0.72rem 0.75rem;
+      border-bottom: 1px solid var(--divider);
+      vertical-align: top;
+    }
+
+    .model-table th {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ink);
+      border-bottom: 2px solid var(--ink);
+      font-weight: 500;
+    }
+
+    .model-table td {
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .model-table td strong {
+      color: var(--ink);
+    }
+
+    .black-note {
+      margin: 1.8rem 0;
+      background: var(--ink);
+      color: var(--inverse);
+      padding: 1rem 1.1rem;
+    }
+
+    .black-note span {
+      display: block;
+      margin-bottom: 0.45rem;
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #bbb;
+    }
+
+    .black-note p {
+      margin: 0;
+      color: var(--inverse);
+      font-size: 0.94rem;
+      line-height: 1.62;
+    }
+
+    pre {
+      margin: 1.25rem 0 1.5rem;
+      background: #111111;
+      color: #f5f5f5;
+      padding: 1rem 1.15rem;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 0.81rem;
+      line-height: 1.67;
+    }
+
+    ul, ol {
+      margin: 0 0 1.1rem;
+      padding-left: 1.25rem;
+      color: var(--text);
+    }
+
+    li {
+      margin-bottom: 0.42rem;
+      font-size: 0.98rem;
+    }
+
+    .closing {
+      margin-top: 3.2rem;
+      padding-top: 1rem;
+      border-top: 2px solid var(--ink);
+    }
+
+    @media (max-width: 900px) {
+      .cover-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cover-card {
+        border-left: none;
+        border-top: 1px solid var(--rule);
+        padding-left: 0;
+        padding-top: 1rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page { padding-left: 0.85rem; padding-right: 0.85rem; }
+      .cover-strip { grid-template-columns: 1fr; }
+      .story { max-width: 100%; }
+      .model-table th, .model-table td { padding-left: 0.45rem; padding-right: 0.45rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="cover">
+      <div class="cover-strip">
+        <p class="kicker">Audience-Forecasting Case Study / Launch Calendar / Editorial Planning</p>
+        <p class="cover-meta">Notebook evidence: `80` daily observations from Mar 1, 2017 onward</p>
+      </div>
+      <div class="cover-grid">
+        <div>
+          <h1>Forecasting an Audience Before the Launch Window Closes</h1>
+          <p class="deck">The useful question is not whether a regression can predict show views. The useful question is whether editorial, programming, and campaign teams can still act on that forecast while the launch window is alive enough to save.</p>
+        </div>
+        <aside class="cover-card">
+          <h2>Notebook facts that matter</h2>
+          <dl>
+            <div>
+              <dt>Context</dt>
+              <dd>A newly launched show starts strong, then slips. The company wants to know what changed before the decline hardens into a pattern.</dd>
+            </div>
+            <div>
+              <dt>Strongest fit</dt>
+              <dd>`R2 0.803` once weekend timing and ad impressions enter the model. That is good enough to influence planning, not good enough to suspend judgment.</dd>
+            </div>
+            <div>
+              <dt>Best editorial clue</dt>
+              <dd>Weekend lift stays powerful throughout the notebook. Cricket-match timing does not.</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+    </header>
+
+    <article class="story">
+      <p class="lede-note">Start with the launch problem, not with the formula.</p>
+
+      <p>By the time a media team asks for a views model, they are usually already late. That is what this notebook captures more clearly than the original page ever did. A digital media company launches a show, gets an encouraging opening response, then starts to feel the slope turn against it. The model is not there to impress a data-science panel. It is there because someone in programming, growth, or audience strategy needs to decide whether to change promo pressure, lean harder into character-led creative, or accept that the audience ceiling is lower than expected.</p>
+      <p>I like this project best when it is read as a launch-window case study. The dataset behind the notebook has `80` daily observations and a compact set of variables that are actually familiar to a media planner: `Visitors`, `Views_platform`, `Ad_impression`, `Character_A`, a derived `weekend` flag, a lagged `Views_show` term, and a `Cricket_match_india` indicator. None of that is glamorous. All of it is operational.</p>
+      <p>The important shift happens once you stop treating view prediction as a generic regression task and start treating it as calendar management. The moment that happens, the notebook’s model sequence makes sense. Early models test basic traffic and weekday structure. Middle models add character emphasis and lag effects. Later models bring in paid reach and external competition. That is not just feature engineering. It is an editorial theory of the launch.</p>
+
+      <div class="pull">
+        <p>Forecasting helps only if it arrives early enough to change the next trailer, the next homepage slot, or the next burst of paid support.</p>
+      </div>
+
+      <section class="section">
+        <div class="section-head">
+          <span class="section-label">Section 01 / The launch rail</span>
+          <h2>The first thing the notebook teaches is that timing is part of the content, not just the container around it.</h2>
+        </div>
+        <p>The show begins with healthy daily demand. The first row in the notebook already has `183,738` show views on March 1, 2017. By March 5, the sample shows `446,314` views, a surge that lines up with a weekend viewing pattern and a higher base of visitors and platform views. That early pop matters because it shapes internal expectations. Teams tend to misread that phase. They call it traction when it may only be launch novelty amplified by weekend behavior and opening promotion.</p>
+        <p>The notebook handles time in a rough but sensible way. It converts the date column, derives “days since launch,” and then translates that into weekday and weekend signals. I would not call that elegant time-series work, but for this business question it is appropriate. Editorial teams do not need a lecture on stationarity here. They need to know whether Saturday behaves differently from Tuesday and whether the shape of the audience curve is something they can influence with scheduling and support.</p>
+        <p>That is why the weekend variable matters so much. The second model, built on `Visitors` and `weekend`, already improves the story over the first model that uses `Visitors` and raw weekday indexing. `R2` moves from `0.485` to `0.500`, and the weekend coefficient comes in strongly positive. In plain English: calendar placement adds explanatory power immediately. This is not an incidental feature. It is one of the central planning levers.</p>
+      </section>
+    </article>
+
+    <div class="figure-block">
+      <p class="figure-label">Figure A / Launch calendar rail</p>
+      <figure>
+        <svg viewBox="0 0 1160 720" role="img" aria-label="Calendar rail showing launch timeline, promo pulses, weekend peaks, and expected view trajectory with drivers panel">
+          <rect x="24" y="24" width="1112" height="672" fill="#ffffff" stroke="#111111" stroke-width="1.5"></rect>
+          <text font-family="Libre Franklin, sans-serif" font-size="24" font-weight="700" fill="#111111">
+            <tspan x="58" y="58">The notebook’s useful picture is a launch calendar:</tspan>
+            <tspan x="58" dy="32">audience rises, dips, spikes on weekends, and responds to promo pressure.</tspan>
+          </text>
+
+          <rect x="56" y="108" width="760" height="508" fill="#ffffff" stroke="#111111" stroke-width="1.5"></rect>
+          <text x="78" y="138" font-family="IBM Plex Mono, monospace" font-size="12" fill="#555555">LAUNCH WINDOW / DAILY VIEW TRAJECTORY</text>
+          <line x1="110" y1="560" x2="780" y2="560" stroke="#111111" stroke-width="1"></line>
+          <line x1="110" y1="500" x2="780" y2="500" stroke="#ddd" stroke-width="1"></line>
+          <line x1="110" y1="440" x2="780" y2="440" stroke="#ddd" stroke-width="1"></line>
+          <line x1="110" y1="380" x2="780" y2="380" stroke="#ddd" stroke-width="1"></line>
+          <line x1="110" y1="320" x2="780" y2="320" stroke="#ddd" stroke-width="1"></line>
+          <text x="64" y="564" font-family="IBM Plex Mono, monospace" font-size="11" fill="#888888">100k</text>
+          <text x="64" y="504" font-family="IBM Plex Mono, monospace" font-size="11" fill="#888888">200k</text>
+          <text x="64" y="444" font-family="IBM Plex Mono, monospace" font-size="11" fill="#888888">300k</text>
+          <text x="64" y="384" font-family="IBM Plex Mono, monospace" font-size="11" fill="#888888">400k</text>
+          <text x="64" y="324" font-family="IBM Plex Mono, monospace" font-size="11" fill="#888888">500k</text>
+
+          <rect x="140" y="204" width="58" height="356" fill="#f0f0f0"></rect>
+          <rect x="256" y="238" width="58" height="322" fill="#f0f0f0"></rect>
+          <rect x="372" y="220" width="58" height="340" fill="#f0f0f0"></rect>
+          <rect x="488" y="256" width="58" height="304" fill="#f0f0f0"></rect>
+          <rect x="604" y="246" width="58" height="314" fill="#f0f0f0"></rect>
+          <rect x="720" y="270" width="40" height="290" fill="#f0f0f0"></rect>
+          <text x="146" y="194" font-family="IBM Plex Mono, monospace" font-size="10" fill="#555555">Wk 1</text>
+          <text x="262" y="228" font-family="IBM Plex Mono, monospace" font-size="10" fill="#555555">Wk 2</text>
+          <text x="378" y="210" font-family="IBM Plex Mono, monospace" font-size="10" fill="#555555">Wk 3</text>
+          <text x="494" y="246" font-family="IBM Plex Mono, monospace" font-size="10" fill="#555555">Wk 4</text>
+          <text x="610" y="236" font-family="IBM Plex Mono, monospace" font-size="10" fill="#555555">Wk 5</text>
+          <text x="722" y="260" font-family="IBM Plex Mono, monospace" font-size="10" fill="#555555">Wk 6</text>
+
+          <polyline fill="none" stroke="#111111" stroke-width="2.4" points="110,518 138,505 166,491 194,452 222,510 250,522 278,503 306,474 334,526 362,516 390,500 418,468 446,522 474,533 502,515 530,488 558,530 586,524 614,505 642,492 670,536 698,528 726,514 754,502" />
+
+          <circle cx="194" cy="452" r="5" fill="#111111"></circle>
+          <text x="208" y="447" font-family="Libre Franklin, sans-serif" font-size="13" fill="#111111">opening weekend spike</text>
+          <circle cx="418" cy="468" r="5" fill="#111111"></circle>
+          <text x="432" y="462" font-family="Libre Franklin, sans-serif" font-size="13" fill="#111111">renewed promo push</text>
+          <circle cx="642" cy="492" r="5" fill="#111111"></circle>
+          <text x="656" y="486" font-family="Libre Franklin, sans-serif" font-size="13" fill="#111111">base starts to soften</text>
+
+          <line x1="110" y1="170" x2="780" y2="170" stroke="#111111" stroke-width="1"></line>
+          <text x="110" y="160" font-family="IBM Plex Mono, monospace" font-size="11" fill="#555555">promo pulses</text>
+          <rect x="130" y="150" width="92" height="14" fill="#111111"></rect>
+          <rect x="356" y="150" width="76" height="14" fill="#111111"></rect>
+          <rect x="600" y="150" width="64" height="14" fill="#111111"></rect>
+          <text x="133" y="146" font-family="IBM Plex Mono, monospace" font-size="10" fill="#555555">launch blast</text>
+          <text x="358" y="146" font-family="IBM Plex Mono, monospace" font-size="10" fill="#555555">character promo</text>
+          <text x="602" y="146" font-family="IBM Plex Mono, monospace" font-size="10" fill="#555555">maintenance flight</text>
+
+          <text x="112" y="590" font-family="IBM Plex Mono, monospace" font-size="11" fill="#888888">Mar 1</text>
+          <text x="252" y="590" font-family="IBM Plex Mono, monospace" font-size="11" fill="#888888">Mar 14</text>
+          <text x="392" y="590" font-family="IBM Plex Mono, monospace" font-size="11" fill="#888888">Mar 27</text>
+          <text x="532" y="590" font-family="IBM Plex Mono, monospace" font-size="11" fill="#888888">Apr 9</text>
+          <text x="672" y="590" font-family="IBM Plex Mono, monospace" font-size="11" fill="#888888">Apr 22</text>
+
+          <rect x="846" y="108" width="258" height="508" fill="#f0f0f0" stroke="#111111" stroke-width="1.5"></rect>
+          <text x="868" y="138" font-family="IBM Plex Mono, monospace" font-size="12" fill="#555555">DRIVER PANEL / WHAT SURVIVES MODELING</text>
+
+          <text x="868" y="182" font-family="Libre Franklin, sans-serif" font-size="16" font-weight="700" fill="#111111">1. Weekend lift</text>
+          <text x="868" y="205" font-family="Libre Franklin, sans-serif" font-size="14" fill="#333333">The notebook keeps finding a strong positive</text>
+          <text x="868" y="226" font-family="Libre Franklin, sans-serif" font-size="14" fill="#333333">weekend effect, around 180k extra views in</text>
+          <text x="868" y="247" font-family="Libre Franklin, sans-serif" font-size="14" fill="#333333">the simpler models.</text>
+
+          <text x="868" y="296" font-family="Libre Franklin, sans-serif" font-size="16" font-weight="700" fill="#111111">2. Ad impressions</text>
+          <text x="868" y="319" font-family="Libre Franklin, sans-serif" font-size="14" fill="#333333">Once paid support enters, fit jumps to</text>
+          <text x="868" y="340" font-family="Libre Franklin, sans-serif" font-size="14" fill="#333333">R2 0.803. Promo pressure is doing work.</text>
+
+          <text x="868" y="389" font-family="Libre Franklin, sans-serif" font-size="16" font-weight="700" fill="#111111">3. Character-led creative</text>
+          <text x="868" y="412" font-family="Libre Franklin, sans-serif" font-size="14" fill="#333333">Helpful in mid-stage models, weaker once</text>
+          <text x="868" y="433" font-family="Libre Franklin, sans-serif" font-size="14" fill="#333333">paid reach explains more of the variation.</text>
+
+          <text x="868" y="482" font-family="Libre Franklin, sans-serif" font-size="16" font-weight="700" fill="#111111">4. Cricket-match flag</text>
+          <text x="868" y="505" font-family="Libre Franklin, sans-serif" font-size="14" fill="#333333">Insignificant in the later model. Editorial</text>
+          <text x="868" y="526" font-family="Libre Franklin, sans-serif" font-size="14" fill="#333333">teams should not over-explain the slump as</text>
+          <text x="868" y="547" font-family="Libre Franklin, sans-serif" font-size="14" fill="#333333">a competition-calendar problem.</text>
+        </svg>
+        <figcaption>The calendar rail is the editorial version of the notebook. It shows launch burst, weekend lift, recurring promo pulses, and the gradual softening of the base audience. The side panel captures the variables that survived long enough to matter in planning.</figcaption>
+      </figure>
+    </div>
+
+    <article class="story">
+      <section class="section">
+        <div class="section-head">
+          <span class="section-label">Section 02 / What the candidate drivers really mean</span>
+          <h2>Visitor traffic matters, but it is not the whole story the notebook ends up telling.</h2>
+        </div>
+        <p>The first regression uses `Visitors` and weekday position. It explains about half the variation in show views with `R2 0.485`. That is decent, but it also tells us something sobering: raw platform traffic is not enough. A show can live on a big platform and still underperform relative to its traffic base. That is why traffic alone makes lazy media planning. It tells you the mall was busy, not whether your store window worked.</p>
+        <p>Adding a simpler `weekend` indicator tightens the picture. `R2` climbs to `0.500`, and the weekend coefficient is large and positive. That is already useful for scheduling. If I were sitting with an editorial lead, I would say this is evidence for concentrating major episodic beats, featured placement, and recap content around high-intent weekend windows rather than spreading effort evenly across the week.</p>
+        <p>The third model adds `Character_A`, and now the fit jumps to `0.586`. That is a meaningful move. It implies that character-specific creative or storyline emphasis is not noise. Some content hooks are better audience magnets than generic show-level branding. That kind of insight matters for trailer cuts, homepage art, notification copy, and the choice of which cast member carries the next burst of messaging.</p>
+        <p>Then the notebook adds `Lag_Views`, yesterday’s show views, and gets to `R2 0.740`. Statistically, that is impressive. Operationally, I am more cautious. Lagged views are useful for explaining momentum, but they are not the cleanest lever for pre-emptive planning because they arrive after the audience has already moved. They make the model sharper. They do not necessarily make the intervention earlier.</p>
+
+        <table class="model-table" aria-label="Model progression table">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Variables</th>
+              <th>Observed notebook fit</th>
+              <th>Planning value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>`lm1`</strong></td>
+              <td>Visitors, weekday</td>
+              <td>`R2 0.485`</td>
+              <td>Good first pass, but too blunt for launch management.</td>
+            </tr>
+            <tr>
+              <td><strong>`lm2`</strong></td>
+              <td>Visitors, weekend</td>
+              <td>`R2 0.500`</td>
+              <td>Immediately useful for scheduling and release-window choices.</td>
+            </tr>
+            <tr>
+              <td><strong>`lm3`</strong></td>
+              <td>Visitors, weekend, Character_A</td>
+              <td>`R2 0.586`</td>
+              <td>Shows that creative emphasis can shift outcomes.</td>
+            </tr>
+            <tr>
+              <td><strong>`lm4`</strong></td>
+              <td>Visitors, Character_A, Lag_Views, weekend</td>
+              <td>`R2 0.740`</td>
+              <td>Excellent explanatory power, but partly retrospective because momentum is already embedded.</td>
+            </tr>
+            <tr>
+              <td><strong>`lm7` to `lm10`</strong></td>
+              <td>Weekend, Character_A, Ad impressions, with and without traffic and cricket</td>
+              <td>`R2 0.803`</td>
+              <td>Best fit and most actionable for campaign support, though not every variable stays meaningful.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <span class="section-label">Section 03 / The promo question</span>
+          <h2>The notebook’s strongest planning result is that paid support explains more than people usually want to admit.</h2>
+        </div>
+        <p>Once `Ad_impression` enters, the story sharpens fast. The model with `weekend`, `Character_A`, `Visitors`, and `Ad_impression` reaches `R2 0.803`. Drop `Visitors`, keep `weekend`, `Character_A`, and `Ad_impression`, and the fit still sits at `0.803`. That is one of the most revealing details in the notebook. It suggests that once campaign pressure is represented properly, generic traffic becomes much less important.</p>
+        <p>This is exactly the kind of result an editorial team can misread if it is delivered carelessly. It does not mean content quality is irrelevant. It means support intensity is a major part of the launch equation, and the decay in viewership may be partly a support problem rather than purely a storytelling problem. That is a different management conversation. It shifts blame away from the abstract phrase “audience fatigue” and toward concrete questions about spend pacing, impression timing, and whether the show was asked to survive on its own too early.</p>
+        <p>The later model that swaps raw ad impressions for <code>ad_impression_million</code> keeps the same fit and makes the coefficient easier to read. That is a good editorial move. Scale should be readable by the people funding the campaign. I wish more notebooks did this kind of unit cleanup before reporting coefficients to non-technical teams.</p>
+
+<pre><code>X = media[["weekend", "Character_A", "ad_impression_million"]]
+X = sm.add_constant(X)
+
+lm_10 = sm.OLS(media["Views_show"], X).fit()
+predicted = lm_10.predict(X)  # best simple planning-facing model in the notebook
+</code></pre>
+
+        <p>I would not call `lm_10` the “truth” model. I would call it the most communicable one. It keeps the calendar effect, the creative hook, and the promo lever. It avoids the crutch of lagged views. It also produces the notebook’s best reported prediction score among the two models that are explicitly used for prediction: mean squared error `4,677,651,616.25` with `r_square_value 0.802643446858`.</p>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <span class="section-label">Section 04 / What not to over-read</span>
+          <h2>The cricket-match variable is a useful warning against storytelling after the fact.</h2>
+        </div>
+        <p>Media teams love explanations that sound plausible in hindsight. A major cricket event happened, the audience drifted, therefore the external event must have caused the problem. The notebook wisely tests that instinct. In the model that includes `weekend`, `Character_A`, `ad_impression_million`, and `Cricket_match_india`, the overall fit remains `0.803`, but the cricket coefficient is not statistically persuasive. In other words, the headline explanation does not carry its weight once the main internal variables are already in the model.</p>
+        <p>That is a valuable discipline. If I were briefing a content or growth team, I would say: do not hide behind competition-calendar mythology when your own support schedule explains more. The sharper strategic move is to ask whether the show lost momentum because promo decayed, because weekend behavior was not exploited aggressively enough, or because character-led positioning was not strong enough to sustain interest once the launch novelty passed.</p>
+        <p>The notebook also exposes another subtle point. `Character_A` is useful in mid-stage models, but weakens once ad impressions dominate the later specifications. I would read that as a sign that the creative angle and the paid campaign may be partially telling overlapping stories. That does not make the character variable useless. It means the team should not assume that creative messaging and media weight are separate worlds. They interact.</p>
+
+        <div class="black-note">
+          <span>Editorial read</span>
+          <p>If weekend timing and ad pressure explain the decline better than cricket competition does, the next meeting should be about release cadence and campaign support, not about inventing a dramatic market excuse.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <span class="section-label">Section 05 / How this would change planning</span>
+          <h2>A forecast like this is most useful when it alters the next three decisions, not when it merely diagnoses the last three weeks.</h2>
+        </div>
+        <p>This is where I think the original page undersold the project. A view model for a media company is not an academic scoreboard. It is an operating document. If I trusted this notebook enough to use it, I would use it in three places.</p>
+        <ol>
+          <li>I would use the weekend effect to shape release emphasis. Major plot beats, companion clips, and homepage promotion should cluster where the audience already shows willingness to spike.</li>
+          <li>I would use the ad-impression result to prevent early support decay. The model makes a strong case that paid pressure is not decoration around the launch. It is part of the demand engine.</li>
+          <li>I would use the weakening of `Character_A` in later models as a creative warning. Character-led positioning helps, but it is not enough to carry a slipping launch if support weakens underneath it.</li>
+        </ol>
+        <p>I would also keep one practical caution in front of the team: these models appear to be fit on the full observed sample rather than on a held-out forecasting split. That is acceptable for exploratory planning, but it means the numbers should be read as strong directional evidence rather than as a production-grade promise of out-of-sample accuracy. The notebook is telling us what seems to drive performance. It is not yet proving that tomorrow’s curve will be nailed in advance.</p>
+      </section>
+
+      <section class="section closing">
+        <div class="section-head">
+          <span class="section-label">Section 06 / The conclusion that matters</span>
+          <h2>The hidden story is not “we predicted views.” The hidden story is that launch support and calendar discipline were probably under-managed.</h2>
+        </div>
+        <p>The best reading of this project is not a technical one-liner about regression. It is a planning memo disguised as a notebook. Weekend timing matters. Promo volume matters even more than many teams like to say out loud. Character-focused creative helps, but it does not rescue a show by itself. Cricket competition is too weak here to serve as a comforting excuse.</p>
+        <p>That gives the company something actionable to walk away with. If a show launches hot and then softens, do not wait for a postmortem three months later. Look at whether the support calendar thinned out too early, whether the release pattern ignored the strongest demand days, and whether the creative hook was strong enough to deserve the media weight behind it. That is where this notebook earns its keep.</p>
+      </section>
+    </article>
+  </main>
+</body>
+</html>
