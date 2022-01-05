@@ -20,3 +20,7 @@
 
 - Task summary: Came back after lunch and realized re-ran the plots with better axis labels and a more readable color palette.
 - Deliverable: Pushed before end of day.
+## 2022-01-05 - Day 3: Cleaning pass
+
+- Task summary: Ended up revisiting this in the evening — the test I wrote this morning had a hardcoded path, swapped it for a relative one.
+- Deliverable: Solid now, moving on.
