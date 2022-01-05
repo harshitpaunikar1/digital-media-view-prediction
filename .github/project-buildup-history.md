@@ -16,3 +16,7 @@
 
 - Task summary: By this point I had the rough direction, so the work became more practical. I spent most of the day trying to fix missing values, bad types, duplicates, and obvious data issues and make the whole thing feel less half baked. Once the base made some sense, I could finally move a bit faster and stop second guessing every tiny decision. A lot of this also meant checking if the numbers were making sense and not just trusting the frist result that showed up.
 - Deliverable: I wrapped up the day with cleaned dataset mostly in place. It was not perfect, but it was good enough to keep the project moving. It was not super polished, just stable enough that I felt okay moving forward.
+## 2022-01-05 - Day 3: Cleaning pass
+
+- Task summary: Came back after lunch and realized re-ran the plots with better axis labels and a more readable color palette.
+- Deliverable: Pushed before end of day.
