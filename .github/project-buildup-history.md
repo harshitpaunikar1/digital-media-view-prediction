@@ -36,3 +36,7 @@
 
 - Task summary: Spent another hour on this: pushed a tiny fix after a teammate's comment — nothing major, just a wording issue in the output.
 - Deliverable: Wrapped it up properly this time.
+## 2022-01-07 - Day 5: Feature prep
+
+- Task summary: Noticed something off from this morning — re-ran the plots with better axis labels and a more readable color palette.
+- Deliverable: One of those satisfying small wins.
