@@ -52,3 +52,7 @@
 
 - Task summary: Ended up revisiting this in the evening — added inline comments in the dense sections — would have been confusing to revisit without them.
 - Deliverable: Small fix, clean result.
+## 2022-01-10 - Day 6: Baseline model
+
+- Task summary: Came back after lunch and realized added a sanity check assertion that would catch obvious data shape issues early.
+- Deliverable: Should've caught it earlier but better now than later.
