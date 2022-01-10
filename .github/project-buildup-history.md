@@ -56,3 +56,7 @@
 
 - Task summary: Came back after lunch and realized added a sanity check assertion that would catch obvious data shape issues early.
 - Deliverable: Should've caught it earlier but better now than later.
+## 2022-01-10 - Day 6: Baseline model
+
+- Task summary: Circled back: the output formatting looked messy when printed, so added a cleaner display block.
+- Deliverable: Should've caught it earlier but better now than later.
