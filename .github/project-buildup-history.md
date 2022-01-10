@@ -44,3 +44,7 @@
 
 - Task summary: This was the middle stretch where the project started feeling real. I kept going and tried to train a simple baseline and record its performance, then cleaned up whatever looked confusing or weak from the earlier days. Once the base made some sense, I could finally move a bit faster and stop second guessing every tiny decision. A lot of this also meant checking if the numbers were making sense and not just trusting the first result that showed up.
 - Deliverable: Ended the day with baseline results in hand, plus a few side notes on what still needed fixing later. It was not super polished, just stable enough that I felt okay moving forward.
+## 2022-01-10 - Day 6: Baseline model
+
+- Task summary: Ended up revisiting this in the evening — re-ran the plots with better axis labels and a more readable color palette.
+- Deliverable: Good enough to not be embarrassing.
