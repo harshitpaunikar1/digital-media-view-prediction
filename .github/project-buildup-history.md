@@ -48,3 +48,7 @@
 
 - Task summary: Ended up revisiting this in the evening — re-ran the plots with better axis labels and a more readable color palette.
 - Deliverable: Good enough to not be embarrassing.
+## 2022-01-10 - Day 6: Baseline model
+
+- Task summary: Ended up revisiting this in the evening — added inline comments in the dense sections — would have been confusing to revisit without them.
+- Deliverable: Small fix, clean result.
