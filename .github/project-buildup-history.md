@@ -68,3 +68,7 @@
 
 - Task summary: Ended up revisiting this in the evening — updated the requirements file — had missed one indirect dependency.
 - Deliverable: Should've caught it earlier but better now than later.
+## 2022-01-11 - Day 7: Model improvement
+
+- Task summary: One more pass: added a sanity check assertion that would catch obvious data shape issues early.
+- Deliverable: Wrapped it up properly this time.
