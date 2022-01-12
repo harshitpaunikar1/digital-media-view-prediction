@@ -72,3 +72,7 @@
 
 - Task summary: One more pass: added a sanity check assertion that would catch obvious data shape issues early.
 - Deliverable: Wrapped it up properly this time.
+## 2022-01-12 - Day 8: Evaluation
+
+- Task summary: Closer to the end, I was mostly tightening things up instead of inventing new scope. The job for the day was to inspect metrics and error cases so the result is believable so the final result looked a bit more complete. Toward the end I mostly kept trimming weird bits, fixing wording, and tying the loose parts together. Most of the progress here came from patient cleanup more than anything flashy.
+- Deliverable: Ended the day with evaluation notes in hand, plus a few side notes on what still needed fixing later. There were still a couple of loose parts, but nothing serious enough to block the next step.
