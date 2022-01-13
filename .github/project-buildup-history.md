@@ -84,3 +84,7 @@
 
 - Task summary: Noticed something off from this morning — the test I wrote this morning had a hardcoded path, swapped it for a relative one.
 - Deliverable: Good enough to not be embarrassing.
+## 2022-01-13 - Day 9: Storytelling check
+
+- Task summary: Quick follow-up: went back and reorganized the config section so values are not buried mid-script.
+- Deliverable: Should've caught it earlier but better now than later.
