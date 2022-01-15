@@ -92,3 +92,7 @@
 
 - Task summary: Used the last day on Digital Media View Prediction to slow down and finish the loose ends. I mainly had to clean the notebook and write a short README and make sure the project told a clean story from start to finish. Most of the heavy lifting was already done, so this part was more about making the rough edges less obvious. I kept bouncing between the notebook, small observations, and quick plots until the direction felt usable.
 - Deliverable: Finished with project documentation looking decent enough to call this version done, even if I could still nitpick a few things. I also left myself a few rough reminders for the next day so I would not have to rediscover the same context again.
+## 2022-01-15 - Day 9: Storytelling check
+
+- Task summary: Spent an hour on Sunday afternoon revisiting the config. Found a value that was set wrong from an earlier experiment. Fixed and committed.
+- Deliverable: Nothing dramatic — just keeping things tidy.
