@@ -22,7 +22,7 @@
 - Deliverable: Pushed before end of day.
 ## 2022-01-05 - Day 3: Cleaning pass
 
-- Task summary: Ended up revisiting this in the evening — the test I wrote this morning had a hardcoded path, swapped it for a relative one.
+- Task summary: Ended up revisiting this in the evening - the test I wrote this morning had a hardcoded path, swapped it for a relative one.
 - Deliverable: Solid now, moving on.
 ## 2022-01-06 - Day 4: EDA
 
@@ -34,11 +34,11 @@
 - Deliverable: Ended the day with feature set in hand, plus a few side notes on what still needed fixing later. There were still a couple of loose parts, but nothing serious enough to block the next step.
 ## 2022-01-07 - Day 5: Feature prep
 
-- Task summary: Spent another hour on this: pushed a tiny fix after a teammate's comment — nothing major, just a wording issue in the output.
+- Task summary: Spent another hour on this: pushed a tiny fix after a teammate's comment - nothing major, just a wording issue in the output.
 - Deliverable: Wrapped it up properly this time.
 ## 2022-01-07 - Day 5: Feature prep
 
-- Task summary: Noticed something off from this morning — re-ran the plots with better axis labels and a more readable color palette.
+- Task summary: Noticed something off from this morning - re-ran the plots with better axis labels and a more readable color palette.
 - Deliverable: One of those satisfying small wins.
 ## 2022-01-10 - Day 6: Baseline model
 
@@ -46,11 +46,11 @@
 - Deliverable: Ended the day with baseline results in hand, plus a few side notes on what still needed fixing later. It was not super polished, just stable enough that I felt okay moving forward.
 ## 2022-01-10 - Day 6: Baseline model
 
-- Task summary: Ended up revisiting this in the evening — re-ran the plots with better axis labels and a more readable color palette.
+- Task summary: Ended up revisiting this in the evening - re-ran the plots with better axis labels and a more readable color palette.
 - Deliverable: Good enough to not be embarrassing.
 ## 2022-01-10 - Day 6: Baseline model
 
-- Task summary: Ended up revisiting this in the evening — added inline comments in the dense sections — would have been confusing to revisit without them.
+- Task summary: Ended up revisiting this in the evening - added inline comments in the dense sections - would have been confusing to revisit without them.
 - Deliverable: Small fix, clean result.
 ## 2022-01-10 - Day 6: Baseline model
 
@@ -66,7 +66,7 @@
 - Deliverable: Ended the day with improved model in hand, plus a few side notes on what still needed fixing later. I also left myself a few rough reminders for the next day so I would not have to rediscover the same context again.
 ## 2022-01-11 - Day 7: Model improvement
 
-- Task summary: Ended up revisiting this in the evening — updated the requirements file — had missed one indirect dependency.
+- Task summary: Ended up revisiting this in the evening - updated the requirements file - had missed one indirect dependency.
 - Deliverable: Should've caught it earlier but better now than later.
 ## 2022-01-11 - Day 7: Model improvement
 
@@ -82,7 +82,7 @@
 - Deliverable: Ended the day with business takeaway in hand, plus a few side notes on what still needed fixing later. It was not super polished, just stable enough that I felt okay moving forward.
 ## 2022-01-13 - Day 9: Storytelling check
 
-- Task summary: Noticed something off from this morning — the test I wrote this morning had a hardcoded path, swapped it for a relative one.
+- Task summary: Noticed something off from this morning - the test I wrote this morning had a hardcoded path, swapped it for a relative one.
 - Deliverable: Good enough to not be embarrassing.
 ## 2022-01-13 - Day 9: Storytelling check
 
@@ -95,4 +95,4 @@
 ## 2022-01-15 - Day 9: Storytelling check
 
 - Task summary: Spent an hour on Sunday afternoon revisiting the config. Found a value that was set wrong from an earlier experiment. Fixed and committed.
-- Deliverable: Nothing dramatic — just keeping things tidy.
+- Deliverable: Nothing dramatic - just keeping things tidy.
